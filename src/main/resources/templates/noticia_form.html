@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Registro Noticias</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    
+        <form action="/registro" method="POST">
+            
+            <div th:if="${error != null}" style="color: red">
+                <h5>Error: </h5>
+                <p th:text="${error}"></p>
+            </div>
+            
+            
+            <div>
+                <label >Cargar Noticia</label>
+                <br>
+                <input type="number" name="id" placeholder="ID">
+            </div>
+            <div>
+                <input type="text" name="titulo" placeholder="Titulo de la noticia">
+            </div>
+            <div>
+                <input type="text" name="cuerpo" placeholder="Cuerpo de la noticia">
+            </div>
+            
+            <button type="submit">Guardar</button>
+            
+            
+        </form>
+    
+</html>
