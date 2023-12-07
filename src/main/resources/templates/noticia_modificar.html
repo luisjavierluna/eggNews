@@ -11,18 +11,23 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        
+        <div th:if="${exito}!=null" style="color: green" >
+            <h5>Exito!</h5>
+            <p th:text="${exito}"></p>
+        </div>
+
+        <div th:if="${error != null}" style="color: red">
+            <h5>Error: </h5>
+            <p th:text="${error}"></p>
+        </div>
+        
         <form th:action="@{/modificar/__${noticia.id}__}" method="POST">
-            
-            <div th:if="${error != null}" style="color: red">
-                <h5>Error: </h5>
-                <p th:text="${error}"></p>
-            </div>
-            
-            
+
             <div>
                 <label >Cargar Noticia</label>
                 <br>
-                <input th:value="${id}" type="number" name="id" placeholder="ID">
+                <input hidden th:value="${id}" type="number" name="id" placeholder="ID">
             </div>
             <div>
                 <input th:value="${noticia.titulo}" type="text" name="titulo" placeholder="Titulo de la noticia">
@@ -30,10 +35,10 @@ and open the template in the editor.
             <div>
                 <input th:value="${noticia.cuerpo}" type="text" name="cuerpo" placeholder="Cuerpo de la noticia">
             </div>
-            
+
             <button type="submit">Guardar</button>
-            
-            
+
         </form>
+        
     </body>
 </html>

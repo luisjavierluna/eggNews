@@ -17,16 +17,15 @@ public class NoticiaServicio {
     private NoticiaRepositorio noticiaRepositorio;
     
     @Transactional
-    public void crearNoticia(Integer id, String titulo, String cuerpo) throws MiException {
+    public void crearNoticia(String titulo, String cuerpo) throws MiException {
         
-        validar(id, titulo, cuerpo);
+        validar(titulo, cuerpo);
         
         Noticia noticia = new Noticia();
         
-        noticia.setId(id);
+        noticia.setId(0);
         noticia.setTitulo(titulo);
         noticia.setCuerpo(cuerpo);
-        
         
         noticiaRepositorio.save(noticia);
     }
@@ -41,7 +40,7 @@ public class NoticiaServicio {
     
     public void modificarNoticia(Integer id, String titulo, String cuerpo) throws MiException {
         
-        validar(id, titulo, cuerpo);
+        validar(titulo, cuerpo);
         
         Optional<Noticia> respuesta = noticiaRepositorio.findById(id);
         
@@ -59,9 +58,7 @@ public class NoticiaServicio {
        return noticiaRepositorio.getOne(id);
     }
     
-    private void validar (Integer id, String titulo, String cuerpo) throws MiException {
-        if (id == null) 
-            throw new MiException("El id no puede ser nulo");
+    private void validar (String titulo, String cuerpo) throws MiException {
         
         if (titulo.isEmpty() || titulo == null) 
             throw new MiException("El título no puede ser nulo o estar vacío");

@@ -11,29 +11,32 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     
-        <form action="/registro" method="POST">
-            
-            <div th:if="${error != null}" style="color: red">
-                <h5>Error: </h5>
-                <p th:text="${error}"></p>
-            </div>
-            
-            
-            <div>
-                <label >Cargar Noticia</label>
-                <br>
-                <input type="number" name="id" placeholder="ID">
-            </div>
-            <div>
-                <input type="text" name="titulo" placeholder="Titulo de la noticia">
-            </div>
-            <div>
-                <input type="text" name="cuerpo" placeholder="Cuerpo de la noticia">
-            </div>
-            
-            <button type="submit">Guardar</button>
-            
-            
-        </form>
+    <div th:if="${exito}!=null" style="color: green" >
+        <h5>Exito!</h5>
+        <p th:text="${exito}"></p>
+    </div>
     
+    <div th:if="${error != null}" style="color: red">
+        <h5>Error: </h5>
+        <p th:text="${error}"></p>
+    </div>
+
+    <form th:action="@{/registro/}" method="POST">
+
+        <div>
+            <label >Cargar Noticia</label>
+            <br>
+        </div>
+        
+        <div>
+            <input type="text" name="titulo" placeholder="Titulo de la noticia">
+        </div>
+        <div>
+            <input type="text" name="cuerpo" placeholder="Cuerpo de la noticia">
+        </div>
+
+        <button type="submit">Guardar</button>
+
+    </form>
+
 </html>

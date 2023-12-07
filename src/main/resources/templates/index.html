@@ -14,6 +14,16 @@ and open the template in the editor.
         
         <div>PÁGINA DE INICIO</div>
         
+        <div th:if="${exito}!=null" style="color: green" >
+            <h5>Exito!</h5>
+            <p th:text="${exito}"></p>
+        </div>
+
+        <div th:if="${error != null}" style="color: red">
+            <h5>Error: </h5>
+            <p th:text="${error}"></p>
+        </div>
+        
         <table>
             <thead>
                 <tr>

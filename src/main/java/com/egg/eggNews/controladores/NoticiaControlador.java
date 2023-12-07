@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/") 
@@ -31,33 +32,62 @@ public class NoticiaControlador {
         return "index.html";
     }
     
+    @GetMapping("/ver/{id}")
+    public String verNoticia(@PathVariable Integer id, ModelMap modelo){
+        modelo.put("noticia", noticiaServicio.getOne(id));
+        
+        return "noticia_ver.html";
+    }
+    
     @GetMapping("/registrar") //localhost:8080/noticia/registrar
     public String registrar(ModelMap modelo) {
         
         return "noticia_form.html";
     }
-    
+        
     @PostMapping("/registro")
     public String registro(
-            @RequestParam(required = false) Integer id,
             @RequestParam String titulo,
             @RequestParam String cuerpo,
-            ModelMap modelo) {
-        
-        System.out.println("");
+            ModelMap modelo,
+            RedirectAttributes redirectAttributes) {
         
         try {
             
-            noticiaServicio.crearNoticia(id, titulo, cuerpo);
+            noticiaServicio.crearNoticia(titulo, cuerpo);
             
-            // modelo.put("exito", "La noticia fue cargada correctamente");
+            redirectAttributes.addFlashAttribute("exito", "La noticia fue cargada correctamente");
             
+            return "redirect:../";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "noticia_form.html";
         }
+    }
+    
+    @GetMapping("/modificar/{id}")
+    public String modificar(@PathVariable Integer id, ModelMap modelo){
+        modelo.put("noticia", noticiaServicio.getOne(id));
         
-        return "index.html";
+        return "noticia_modificar.html";
+    }
+    
+    @PostMapping("/modificar/{id}")
+    public String modificar(@PathVariable Integer id, String titulo, String cuerpo, ModelMap modelo, RedirectAttributes redirectAttributes) {
+        try {
+            
+            noticiaServicio.modificarNoticia(id, titulo, cuerpo);
+            
+            redirectAttributes.addFlashAttribute("exito", "La noticia fue cargada correctamente");
+            
+            return "redirect:../";
+        } catch (MiException ex) {
+            modelo.put("noticia", noticiaServicio.getOne(id));
+            
+            modelo.put("error", ex.getMessage());
+            
+            return "noticia_modificar.html";
+        }
     }
     
     @GetMapping("/lista")
@@ -69,33 +99,6 @@ public class NoticiaControlador {
         return "noticias_list.html";
     }
     
-    @GetMapping("/modificar/{id}")
-    public String modificar(@PathVariable Integer id, ModelMap modelo){
-        modelo.put("noticia", noticiaServicio.getOne(id));
-        
-        return "noticia_modificar.html";
-    }
     
-    @PostMapping("/modificar/{id}")
-    public String modificar(@PathVariable Integer id, String titulo, String cuerpo, ModelMap modelo) {
-        try {
-            
-            noticiaServicio.modificarNoticia(id, titulo, cuerpo);
-            
-            return "redirect:../lista";
-            
-        } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
-            
-            return "noticia_modificar.html";
-        }
-    }
-    
-    @GetMapping("/ver/{id}")
-    public String verNoticia(@PathVariable Integer id, ModelMap modelo){
-        modelo.put("noticia", noticiaServicio.getOne(id));
-        
-        return "noticia_ver.html";
-    }
     
 }
