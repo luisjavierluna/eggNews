@@ -12,39 +12,9 @@ and open the template in the editor.
     </head>
     <body>
         
-        <div>PÁGINA DE INICIO</div>
+        <h5>PÁGINA DE INICIO</h5>
         
-        <div th:if="${exito}!=null" style="color: green" >
-            <h5>Exito!</h5>
-            <p th:text="${exito}"></p>
-        </div>
-
-        <div th:if="${error != null}" style="color: red">
-            <h5>Error: </h5>
-            <p th:text="${error}"></p>
-        </div>
         
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Titulo</th>
-                    <th>Cuerpo</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            
-            <tbody th:each="noticia : ${noticias}">
-                <tr>
-                    <td th:text="${noticia.id}"></td>
-                    <td th:text="${noticia.titulo}"></td>
-                    <td th:text="${noticia.cuerpo}"></td>
-                    <td>
-                        <a th:href= "@{ver/__${noticia.id}__}">Ver Noticia</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
         
     </body>
 </html>

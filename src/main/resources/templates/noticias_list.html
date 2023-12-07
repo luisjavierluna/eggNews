@@ -12,6 +12,16 @@ and open the template in the editor.
     </head>
     <body>
         
+        <div th:if="${exito}!=null" style="color: green" >
+            <h5>Exito!</h5>
+            <p th:text="${exito}"></p>
+        </div>
+
+        <div th:if="${error != null}" style="color: red">
+            <h5>Error: </h5>
+            <p th:text="${error}"></p>
+        </div>
+        
         <table>
             <thead>
                 <tr>
@@ -28,7 +38,7 @@ and open the template in the editor.
                     <td th:text="${noticia.titulo}"></td>
                     <td th:text="${noticia.cuerpo}"></td>
                     <td>
-                        <a th:href= "@{modificar/__${noticia.id}__}">Modificar</a>
+                        <a th:href= "@{ver/__${noticia.id}__}">Ver Noticia</a>
                     </td>
                 </tr>
             </tbody>

@@ -4,8 +4,6 @@ import com.egg.eggNews.entidades.Noticia;
 import com.egg.eggNews.excepciones.MiException;
 import com.egg.eggNews.servicios.NoticiaServicio;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,19 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/") 
+@RequestMapping("/noticia") 
 public class NoticiaControlador {
     
     @Autowired
     private NoticiaServicio noticiaServicio;
     
     @GetMapping("/")
-    public String index(ModelMap modelo) {
+    public String listar(ModelMap modelo) {
         List<Noticia> noticias = noticiaServicio.listarNoticias();
         
         modelo.addAttribute("noticias", noticias);
         
-        return "index.html";
+        return "noticias_list.html";
     }
     
     @GetMapping("/ver/{id}")
@@ -89,16 +87,5 @@ public class NoticiaControlador {
             return "noticia_modificar.html";
         }
     }
-    
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo) {
-        List<Noticia> noticias = noticiaServicio.listarNoticias();
-        
-        modelo.addAttribute("noticias", noticias);
-        
-        return "noticias_list.html";
-    }
-    
-    
     
 }
