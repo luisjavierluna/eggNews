@@ -2,6 +2,7 @@ package com.egg.eggNews.controladores;
 
 import com.egg.eggNews.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class PortalControlador {
 
             redirectAttributes.addFlashAttribute("exito", "Usuario registrado exitosamente");
             
-            return "redirect:/inicio";
+            return "redirect:/login";
 
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
@@ -61,6 +62,7 @@ public class PortalControlador {
         return "login.html";
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_PERIODISTA', 'ROLE_ADMINISTRADOR')")
     @GetMapping("/inicio")
     public String inicio() {
         return "inicio.html";
