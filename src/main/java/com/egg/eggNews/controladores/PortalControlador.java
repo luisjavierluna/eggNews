@@ -1,6 +1,8 @@
 package com.egg.eggNews.controladores;
 
+import com.egg.eggNews.entidades.Usuario;
 import com.egg.eggNews.servicios.UsuarioServicio;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,19 @@ public class PortalControlador {
     @GetMapping("/")
     public String index(ModelMap modelo) {
         return "index.html";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_PERIODISTA', 'ROLE_ADMINISTRADOR')")
+    @GetMapping("/inicio")
+    public String inicio(HttpSession session) {
+        
+        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        
+        if (logueado.getRol().toString().equals("ADMINISTRADOR")) {
+            return "redirect:/admin/dashboard";
+        }
+        
+        return "inicio.html";
     }
     
     @GetMapping("/registrar")
@@ -62,9 +77,5 @@ public class PortalControlador {
         return "login.html";
     }
     
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO', 'ROLE_PERIODISTA', 'ROLE_ADMINISTRADOR')")
-    @GetMapping("/inicio")
-    public String inicio() {
-        return "inicio.html";
-    }
+    
 }
