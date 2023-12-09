@@ -1,6 +1,7 @@
 package com.egg.eggNews.servicios;
 
 import com.egg.eggNews.entidades.Noticia;
+import com.egg.eggNews.entidades.Usuario;
 import com.egg.eggNews.excepciones.MiException;
 import com.egg.eggNews.repositorios.NoticiaRepositorio;
 import java.util.ArrayList;
@@ -16,8 +17,22 @@ public class NoticiaServicio {
     @Autowired
     private NoticiaRepositorio noticiaRepositorio;
     
+    
+    
+    public List<Noticia> listarNoticias() {
+        List<Noticia> libros = new ArrayList();
+        
+        libros = noticiaRepositorio.findAll();
+        
+        return libros;
+    }
+    
+    public Noticia getOne(Integer id){
+       return noticiaRepositorio.getOne(id);
+    }
+    
     @Transactional
-    public void crearNoticia(String titulo, String cuerpo) throws MiException {
+    public void crearNoticia(String titulo, String cuerpo, Usuario creador) throws MiException {
         
         validar(titulo, cuerpo);
         
@@ -26,16 +41,9 @@ public class NoticiaServicio {
         noticia.setId(0);
         noticia.setTitulo(titulo);
         noticia.setCuerpo(cuerpo);
+        noticia.setCreador(creador);
         
         noticiaRepositorio.save(noticia);
-    }
-    
-    public List<Noticia> listarNoticias() {
-        List<Noticia> libros = new ArrayList();
-        
-        libros = noticiaRepositorio.findAll();
-        
-        return libros;
     }
     
     public void modificarNoticia(Integer id, String titulo, String cuerpo) throws MiException {
@@ -52,10 +60,6 @@ public class NoticiaServicio {
             
             noticiaRepositorio.save(noticia);
         }
-    }
-    
-    public Noticia getOne(Integer id){
-       return noticiaRepositorio.getOne(id);
     }
     
     public void eliminarNoticia(Integer id) throws MiException {

@@ -1,9 +1,11 @@
 package com.egg.eggNews.controladores;
 
 import com.egg.eggNews.entidades.Noticia;
+import com.egg.eggNews.entidades.Usuario;
 import com.egg.eggNews.excepciones.MiException;
 import com.egg.eggNews.servicios.NoticiaServicio;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -51,11 +53,14 @@ public class NoticiaControlador {
             @RequestParam String titulo,
             @RequestParam String cuerpo,
             ModelMap modelo,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
         
         try {
+            Usuario logueado = (Usuario) session.getAttribute("usuariosession");
             
-            noticiaServicio.crearNoticia(titulo, cuerpo);
+            
+            noticiaServicio.crearNoticia(titulo, cuerpo, logueado);
             
             redirectAttributes.addFlashAttribute("exito", "La noticia fue cargada correctamente");
             
