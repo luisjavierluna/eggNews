@@ -4,7 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
@@ -22,27 +22,49 @@ and open the template in the editor.
             <p th:text="${error}"></p>
         </div>
         
-        <table>
+        <table border="1px solid black">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Titulo</th>
                     <th>Cuerpo</th>
-                    <th>Acciones</th>
+                    <th sec:authorize="hasAnyRole('ADMINISTRADOR', 'PERIODISTA')">Acciones</th>
                 </tr>
             </thead>
             
             <tbody th:each="noticia : ${noticias}">
                 <tr>
                     <td th:text="${noticia.id}"></td>
-                    <td th:text="${noticia.titulo}"></td>
+                    <td >
+                        <a th:href= "@{ver/__${noticia.id}__}" th:text="${noticia.titulo}"></a>
+                    </td>
                     <td th:text="${noticia.cuerpo}"></td>
-                    <td>
-                        <a th:href= "@{ver/__${noticia.id}__}">Ver Noticia</a>
+                    <td sec:authorize="hasAnyRole('ADMINISTRADOR', 'PERIODISTA')">
+                        
+                        <a  sec:authorize="hasAnyRole('ADMINISTRADOR', 'PERIODISTA')"
+                            th:href= "@{modificar/__${noticia.id}__}"
+                            style="color: green">
+                            
+                            Modificar Noticia
+                        </a>
+                        
+                        <a  sec:authorize="hasRole('ADMINISTRADOR')"
+                            th:href= "@{eliminar/__${noticia.id}__}"S
+                            style="color: red" >
+                            
+                            Eliminar
+                        </a>
+                        
                     </td>
                 </tr>
             </tbody>
         </table>
+        
+        <br>
+        
+        <a sec:authorize="hasAnyRole('ADMINISTRADOR', 'PERIODISTA')" th:href="@{/noticia/registrar}" >Crear Noticia</a>
+        
+            
         
     </body>
 </html>

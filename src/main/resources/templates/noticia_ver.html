@@ -12,9 +12,17 @@ and open the template in the editor.
     </head>
     <body>
         
-        <h5 th:text="${noticia.titulo}" style="font-size: 30px"></h5>
+        <div th:if="${session.usuariosession == null}">
+            <h1>No puedes ver este contenido</h1>
+            
+            <p>Registrate o inicia sesión para poder ver noticias</p>
+        </div>
         
-        <p th:text="${noticia.cuerpo}"></p>
+        <div th:if="${session.usuariosession != null}">
+            <h5 th:text="${noticia.titulo}" style="font-size: 30px"></h5>
+
+            <p th:text="${noticia.cuerpo}"></p>
+        </div>
         
     </body>
 </html>
