@@ -49,7 +49,7 @@ and open the template in the editor.
                         </a>
                         
                         <a  sec:authorize="hasRole('ADMINISTRADOR')"
-                            th:href= "@{eliminar/__${noticia.id}__}"S
+                            th:href= "@{eliminar/__${noticia.id}__}"
                             style="color: red" >
                             
                             Eliminar
@@ -62,7 +62,7 @@ and open the template in the editor.
         
         <br>
         
-        <a sec:authorize="hasAnyRole('ADMINISTRADOR', 'PERIODISTA')" th:href="@{/noticia/registrar}" >Crear Noticia</a>
+        <a sec:authorize="hasAnyRole('ADMINISTRADOR', 'PERIODISTA')" th:href="@{/registrar}" >Crear Noticia</a>
         
             
         

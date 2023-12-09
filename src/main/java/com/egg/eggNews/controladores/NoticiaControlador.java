@@ -5,6 +5,7 @@ import com.egg.eggNews.excepciones.MiException;
 import com.egg.eggNews.servicios.NoticiaServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +38,14 @@ public class NoticiaControlador {
         return "noticia_ver.html";
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_PERIODISTA', 'ROLE_ADMINISTRADOR')")
     @GetMapping("/registrar") //localhost:8080/noticia/registrar
     public String registrar(ModelMap modelo) {
         
         return "noticia_form.html";
     }
         
+    @PreAuthorize("hasAnyRole('ROLE_PERIODISTA', 'ROLE_ADMINISTRADOR')")
     @PostMapping("/registro")
     public String registro(
             @RequestParam String titulo,
@@ -63,6 +66,7 @@ public class NoticiaControlador {
         }
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_PERIODISTA', 'ROLE_ADMINISTRADOR')")
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable Integer id, ModelMap modelo){
         modelo.put("noticia", noticiaServicio.getOne(id));
@@ -70,6 +74,7 @@ public class NoticiaControlador {
         return "noticia_modificar.html";
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_PERIODISTA', 'ROLE_ADMINISTRADOR')")
     @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable Integer id, String titulo, String cuerpo, ModelMap modelo, RedirectAttributes redirectAttributes) {
         try {
@@ -88,4 +93,30 @@ public class NoticiaControlador {
         }
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')")
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id, ModelMap modelo){
+        modelo.put("noticia", noticiaServicio.getOne(id));
+        
+        return "noticia_eliminar.html";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')")
+    @PostMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable Integer id, ModelMap modelo, RedirectAttributes redirectAttributes) {
+        try {
+            
+            noticiaServicio.eliminarNoticia(id);
+            
+            redirectAttributes.addFlashAttribute("exito", "La noticia fue eliminada correctamente");
+            
+            return "redirect:../";
+        } catch (MiException ex) {
+            modelo.put("noticia", noticiaServicio.getOne(id));
+            
+            modelo.put("error", ex.getMessage());
+            
+            return "noticia_eliminar.html";
+        }
+    }
 }

@@ -51,11 +51,21 @@ public class NoticiaServicio {
             noticia.setCuerpo(cuerpo);
             
             noticiaRepositorio.save(noticia);
-        }       
+        }
     }
     
     public Noticia getOne(Integer id){
        return noticiaRepositorio.getOne(id);
+    }
+    
+    public void eliminarNoticia(Integer id) throws MiException {
+        Optional<Noticia> respuesta = noticiaRepositorio.findById(id);
+        
+        if (respuesta.isPresent()) {
+            Noticia noticia = respuesta.get();
+            
+            noticiaRepositorio.delete(noticia);
+        }
     }
     
     private void validar (String titulo, String cuerpo) throws MiException {
