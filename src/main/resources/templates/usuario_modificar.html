@@ -4,9 +4,9 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Registrate</title>
+        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -22,30 +22,35 @@ and open the template in the editor.
             <p th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/registro}" method="POST" enctype="multipart/form-data">
+        <form th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+
+            <input hidden th:value="${id}" name="id">
 
             <div>
-                <h3>Registrate!</h3>
-            </div>
-            
-            <div>
-                <input type="text" name="nombreUsuario" placeholder="NOMBRE DE USUARIO" th:value="${nombreUsuario}">
-            </div>
-            
-            <div>
-                <input type="file" name="archivo">
-            </div>
-            
-            <div>
-                <input type="password" name="password" placeholder="CONTRASEÑA" th:value="${password}">
+                <h3>Editar Usuario</h3>
             </div>
             <div>
-                <input type="password" name="password2" placeholder="REPETIR CONTRASEÑA" th:value="${password2}">
+                <input type="text" name="nombreUsuario" placeholder="NOMBRE DE USUARIO" th:value="${usuario.nombreUsuario}">
+            </div>
+            <div>
+                <input type="file" name="archivo" >
+            </div>
+            <div>
+                <input type="password" name="password" placeholder="PASSWORD">
+            </div>
+            <div>
+                <input type="password" name="password2" placeholder="REPETIR PASSWORD" >
             </div>
 
 
-            <button type="submit">Registrarme</button>
+            <button type="submit">Actualizar</button>
         </form>
+
+        <div>
+            <div>
+                <a th:href="@{/inicio}">Volver</a>
+            </div>
+        </div>
 
     </body>
 </html>

@@ -35,6 +35,10 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
     
+    public Usuario getOne(String id) {
+        return usuarioRepositorio.getOne(id);
+    }
+    
     @Transactional
     public void registrar(MultipartFile archivo, String nombreUsuario, String password,
             String password2) throws MiException {

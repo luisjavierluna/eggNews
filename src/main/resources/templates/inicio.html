@@ -12,5 +12,21 @@ and open the template in the editor.
     </head>
     <body>
         <h5>PÁGINA DE INICIO (SESIÓN INICIADA)</h5>
+        
+        <br>
+        
+        <div>
+            <a th:if="${session.usuariosession.imagen != null}" >
+                <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" style="height: 60px; weight: 60px;">
+            </a>
+        </div>
+        
+        <br>
+        
+        <a th:href="@{/perfil}" >Editar Perfil</a>
+        
+        <br>
+        
+        <a href="/logout" >Cerrar Sesión</a>
     </body>
 </html>
