@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -36,4 +37,7 @@ public class Usuario implements Serializable{
 //    @OneToMany // SE PUEDEN MANEJAR DESDE EL CONTROLADOR DE NOTICIAS
 //    private List<Noticia> misNoticias;
     private Integer sueldoMensual;
+    
+    @OneToOne
+    private Imagen imagen;
 }
