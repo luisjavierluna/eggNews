@@ -40,6 +40,16 @@ public class UsuarioServicio implements UserDetailsService {
     }
     
     @Transactional
+    public List<Usuario> listarUsuarios() {
+
+        List<Usuario> usuarios = new ArrayList();
+
+        usuarios = usuarioRepositorio.findAll();
+
+        return usuarios;
+    }
+    
+    @Transactional
     public void registrar(MultipartFile archivo, String nombreUsuario, String password,
             String password2) throws MiException {
         
@@ -63,6 +73,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
     
+    @Transactional
     public void actualizar(MultipartFile archivo, String id, String nombreUsuario,
             String password, String password2) throws MiException {
 
@@ -83,6 +94,55 @@ public class UsuarioServicio implements UserDetailsService {
 
             usuario.setImagen(imagen);
 
+            usuarioRepositorio.save(usuario);
+        }
+    }
+    
+    @Transactional
+    public void cambiarRol(String id, Rol rol) throws MiException {
+        
+        if (rol == null) {
+            throw new MiException("No se ingreso un sueldo mensual");
+        }
+        
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+
+            usuario.setRol(rol);
+        }
+    }
+    
+    @Transactional
+    public void asignarSueldo(String id, Integer sueldoMensual) throws MiException {
+
+        if (sueldoMensual == null) {
+            throw new MiException("No se ingreso un sueldo mensual");
+        }
+        
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+            
+            usuario.setSueldoMensual(sueldoMensual);
+            
+            usuarioRepositorio.save(usuario);
+        }
+    }
+    
+    @Transactional
+    public void darBajaUsuario(String id) throws MiException {
+        
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+            
+            usuario.setActivo(false);
+            
             usuarioRepositorio.save(usuario);
         }
     }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <div th:if="${exito}!=null" style="color: green" >
+            <h5>Exito!</h5>
+            <p th:text="${exito}"></p>
+        </div>
+
+        <div th:if="${error != null}" style="color: red">
+            <h5>Error: </h5>
+            <p th:text="${error}"></p>
+        </div>
+
+        <table border="1px solid black">
+            <thead>
+                <tr>
+                    <th>Id del Usuario</th>
+                    <th>Nombre</th>
+                    <th>Foto de Perfil</th>
+                    <th>Rol</th>
+                    <th>Cambiar Rol</th>
+                    <th>Asignar Sueldo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody th:each="usuario : ${usuarios}"> 
+                <tr>
+                    <th scope="row" th:text="${usuario.id}"></th>
+
+                    <td th:text="${usuario.nombreUsuario}"></td>
+
+                    <td>
+                        <a><img 
+                                th:if="${usuario.imagen != null}" 
+                                th:src="@{/imagen/perfil/__${usuario.id}__}" 
+                                style="height: 60px; weight: 60px;"></a>
+                    </td>
+
+                    <td th:text="${usuario.rol}"></td>
+
+                    <td>
+                        <a th:href= "@{/admin/modificarRol/__${usuario.id}__}">Cambiar</a>
+                    </td>
+
+                    <td>
+                        <div>
+                            <p th:text="${'$ ' + usuario.sueldoMensual}" ></p>
+                            
+                            <a th:href= "@{/admin/asignarSueldo/__${usuario.id}__}">Modificar</a>
+                            
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <a th:if="${usuario.activo}" th:href= "@{/admin/darBaja/__${usuario.id}__}">Dar Baja</a>
+                        <a th:if="${!usuario.activo}" style="color: red">Usuario con baja</a>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+        <a th:href="@{/admin/dashboard }">Volver</a>
+
+    </body>
+</html>
